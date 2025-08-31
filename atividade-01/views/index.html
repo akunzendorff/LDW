@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}PokéApp - Página Inicial{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <div class="pokemon-card p-5 mb-5 text-center">
+            <h1 class="display-4 mb-4">
+                <i class="fas fa-bolt text-warning"></i>
+                Bem-vindo ao PokéApp!
+            </h1>
+            <p class="lead mb-4">
+                Sua aplicação completa para gerenciar seus Pokémons favoritos e explorar a Pokédex!
+            </p>
+            <div class="row text-center mt-5">
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100 border-0 shadow">
+                        <div class="card-body">
+                            <i class="fas fa-heart fa-3x text-danger mb-3"></i>
+                            <h4>Pokémons Favoritos</h4>
+                            <p class="card-text">
+                                Gerencie sua lista de Pokémons favoritos de forma simples e rápida.
+                            </p>
+                            <a href="{{ url_for('favoritos') }}" class="btn btn-pokemon">
+                                <i class="fas fa-heart"></i> Ver Favoritos
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100 border-0 shadow">
+                        <div class="card-body">
+                            <i class="fas fa-book fa-3x text-primary mb-3"></i>
+                            <h4>Pokédex Completa</h4>
+                            <p class="card-text">
+                                Cadastre e visualize informações detalhadas dos seus Pokémons.
+                            </p>
+                            <a href="{{ url_for('pokedex') }}" class="btn btn-pokemon">
+                                <i class="fas fa-book"></i> Abrir Pokédex
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="pokemon-card p-4 text-center h-100">
+                    <i class="fas fa-list fa-2x text-success mb-3"></i>
+                    <h5>Lista Simples</h5>
+                    <p>Adicione e remova Pokémons da sua lista de favoritos facilmente.</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="pokemon-card p-4 text-center h-100">
+                    <i class="fas fa-table fa-2x text-info mb-3"></i>
+                    <h5>Tabela Detalhada</h5>
+                    <p>Visualize informações completas em formato de tabela organizada.</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="pokemon-card p-4 text-center h-100">
+                    <i class="fas fa-mobile-alt fa-2x text-warning mb-3"></i>
+                    <h5>Responsivo</h5>
+                    <p>Interface adaptável para todos os dispositivos e tamanhos de tela.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="pokemon-card p-4 mt-4">
+            <h4 class="text-center mb-4">
+                <i class="fas fa-chart-bar"></i> Estatísticas Rápidas
+            </h4>
+            <div class="row text-center">
+                <div class="col-md-3">
+                    <h3 class="text-primary">150+</h3>
+                    <p>Pokémons Disponíveis</p>
+                </div>
+                <div class="col-md-3">
+                    <h3 class="text-success">8</h3>
+                    <p>Regiões</p>
+                </div>
+                <div class="col-md-3">
+                    <h3 class="text-warning">18</h3>
+                    <p>Tipos Diferentes</p>
+                </div>
+                <div class="col-md-3">
+                    <h3 class="text-danger">∞</h3>
+                    <p>Diversão</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

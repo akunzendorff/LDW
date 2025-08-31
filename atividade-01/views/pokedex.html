@@ -1,0 +1,216 @@
+{% extends "base.html" %}
+
+{% block title %}PokéApp - Pokédex{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-12">
+        <div class="pokemon-card p-4 mb-4 text-center">
+            <h2>
+                <i class="fas fa-book text-primary"></i>
+                Pokédex Completa
+            </h2>
+            <p class="lead mb-0">Cadastre e visualize informações detalhadas dos Pokémons</p>
+        </div>
+
+        <div class="pokemon-card p-4 mb-4">
+            <h4 class="mb-3">
+                <i class="fas fa-plus-circle text-success"></i>
+                Cadastrar Novo Pokémon
+            </h4>
+            <form method="POST">
+                <div class="row">
+                    <div class="col-md-2 mb-3">
+                        <label for="nome" class="form-label">Nome:</label>
+                        <input type="text" 
+                               class="form-control" 
+                               id="nome" 
+                               name="nome" 
+                               placeholder="Ex: Pikachu" 
+                               required>
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <label for="tipo" class="form-label">Tipo:</label>
+                        <input type="text" 
+                               class="form-control" 
+                               id="tipo" 
+                               name="tipo" 
+                               placeholder="Ex: Elétrico" 
+                               required>
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <label for="nivel" class="form-label">Nível:</label>
+                        <input type="number" 
+                               class="form-control" 
+                               id="nivel" 
+                               name="nivel" 
+                               min="1" 
+                               max="100" 
+                               placeholder="1-100" 
+                               required>
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <label for="hp" class="form-label">HP:</label>
+                        <input type="number" 
+                               class="form-control" 
+                               id="hp" 
+                               name="hp" 
+                               min="1" 
+                               placeholder="Ex: 100" 
+                               required>
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <label for="regiao" class="form-label">Região:</label>
+                        <select class="form-control" id="regiao" name="regiao" required>
+                            <option value="">Selecione...</option>
+                            <option value="Kanto">Kanto</option>
+                            <option value="Johto">Johto</option>
+                            <option value="Hoenn">Hoenn</option>
+                            <option value="Sinnoh">Sinnoh</option>
+                            <option value="Unova">Unova</option>
+                            <option value="Kalos">Kalos</option>
+                            <option value="Alola">Alola</option>
+                            <option value="Galar">Galar</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2 mb-3 d-flex align-items-end">
+                        <button type="submit" class="btn btn-pokemon w-100">
+                            <i class="fas fa-plus"></i> Cadastrar
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="pokemon-card p-4">
+            <h4 class="mb-3">
+                <i class="fas fa-table text-info"></i>
+                Pokémons Cadastrados
+            </h4>
+            
+            {% if pokemon_database %}
+                <div class="table-responsive">
+                    <table class="table table-hover table-pokemon">
+                        <thead class="table-dark">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">
+                                    <i class="fas fa-bolt"></i> Nome
+                                </th>
+                                <th scope="col">
+                                    <i class="fas fa-fire"></i> Tipo
+                                </th>
+                                <th scope="col">
+                                    <i class="fas fa-level-up-alt"></i> Nível
+                                </th>
+                                <th scope="col">
+                                    <i class="fas fa-heart"></i> HP
+                                </th>
+                                <th scope="col">
+                                    <i class="fas fa-map-marker-alt"></i> Região
+                                </th>
+                                <th scope="col">
+                                    <i class="fas fa-cogs"></i> Ações
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for pokemon in pokemon_database %}
+                            <tr>
+                                <th scope="row">{{ loop.index }}</th>
+                                <td>
+                                    <strong class="text-primary">{{ pokemon.nome }}</strong>
+                                </td>
+                                <td>
+                                    <span class="badge bg-secondary">{{ pokemon.tipo }}</span>
+                                </td>
+                                <td>
+                                    <span class="badge bg-success">Nv. {{ pokemon.nivel }}</span>
+                                </td>
+                                <td>
+                                    <div class="progress" style="height: 20px;">
+                                        {% if pokemon.hp <= 50 %}
+                                            {% set hp_width = "25" %}
+                                            {% set hp_color = "bg-danger" %}
+                                        {% elif pokemon.hp <= 100 %}
+                                            {% set hp_width = "50" %}
+                                            {% set hp_color = "bg-warning" %}
+                                        {% elif pokemon.hp <= 150 %}
+                                            {% set hp_width = "75" %}
+                                            {% set hp_color = "bg-success" %}
+                                        {% else %}
+                                            {% set hp_width = "100" %}
+                                            {% set hp_color = "bg-primary" %}
+                                        {% endif %}
+                                        <div class="progress-bar {{ hp_color }}"
+                                             role="progressbar"
+                                             style="width: {{ hp_width }}%">
+                                            {{ pokemon.hp }} HP
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="badge bg-info">{{ pokemon.regiao }}</span>
+                                </td>
+                                <td>
+                                    <a href="{{ url_for('remover_pokemon', index=loop.index0) }}" 
+                                       class="btn btn-outline-danger btn-sm"
+                                       onclick="return confirm('Tem certeza que deseja remover {{ pokemon.nome }} da Pokédex?')">
+                                        <i class="fas fa-trash"></i> Remover
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="row mt-4">
+                    <div class="col-md-3 text-center">
+                        <h5 class="text-primary">{{ pokemon_database|length }}</h5>
+                        <small class="text-muted">Total de Pokémons</small>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <h5 class="text-success">
+                            {{ (pokemon_database|sum(attribute='nivel') / pokemon_database|length)|round(1) if pokemon_database else 0 }}
+                        </h5>
+                        <small class="text-muted">Nível Médio</small>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <h5 class="text-warning">
+                            {{ (pokemon_database|sum(attribute='hp') / pokemon_database|length)|round(1) if pokemon_database else 0 }}
+                        </h5>
+                        <small class="text-muted">HP Médio</small>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <h5 class="text-info">
+                            {{ pokemon_database|map(attribute='regiao')|unique|list|length }}
+                        </h5>
+                        <small class="text-muted">Regiões Diferentes</small>
+                    </div>
+                </div>
+            {% else %}
+                <div class="text-center py-5">
+                    <i class="fas fa-book-open fa-3x text-muted mb-3"></i>
+                    <h5 class="text-muted">Pokédex vazia</h5>
+                    <p class="text-muted">Cadastre seu primeiro Pokémon usando o formulário acima!</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="pokemon-card p-4 mt-4">
+            <h5>
+                <i class="fas fa-info-circle text-info"></i>
+                Sobre a Pokédex:
+            </h5>
+            <ul class="mb-0">
+                <li><strong>Nome:</strong> Identificação única do Pokémon</li>
+                <li><strong>Tipo:</strong> Categoria elemental (pode ter dois tipos separados por "/")</li>
+                <li><strong>Nível:</strong> Força do Pokémon (1-100)</li>
+                <li><strong>HP:</strong> Pontos de vida do Pokémon</li>
+                <li><strong>Região:</strong> Local de origem do Pokémon</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
